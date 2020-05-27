@@ -8,7 +8,7 @@ public class Building : MonoBehaviour
     public int cost_money;
     public int cost_planks;
     public Tile tile;
-    public float efficiency = 1.0f;
+    public float efficiency;
     public int resourceGenInterval;
     public int resourceGenAmount;
     public List<Tile.TileTypes> possibleTileTypes;
@@ -43,6 +43,10 @@ public class Building : MonoBehaviour
             else {
                 efficiency = (float)fittingNeighbors / (float)maxNeighbors;
             }
+        }
+        else
+        {
+            efficiency = 1.0f;
         }
     }
 }
