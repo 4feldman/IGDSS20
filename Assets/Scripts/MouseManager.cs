@@ -9,6 +9,7 @@ public class MouseManager : MonoBehaviour
     public float zoomSpeed = 10;
     public float minZoom = 20;
     public float maxZoom = 100;
+    public GameManager gameManager;
 
     // Start is called before the first frame update
     void Start()
@@ -54,7 +55,8 @@ public class MouseManager : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, maxZoom + 100, 1 << LayerMask.NameToLayer("Tiles")))
             {
-                Debug.Log(hit.collider.gameObject.name);
+                Tile tile = hit.collider.gameObject.GetComponent<Tile>();
+                gameManager.TileClicked(tile);
             }
         }
     }

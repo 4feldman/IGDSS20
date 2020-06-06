@@ -1,5 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using UnityEditor.SceneManagement;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 public class GameManager : MonoBehaviour
 {
@@ -19,9 +23,13 @@ public class GameManager : MonoBehaviour
     #region Buildings
     public GameObject[] _buildingPrefabs; //References to the building prefabs
     public int _selectedBuildingPrefabIndex = 0; //The current index used for choosing a prefab to spawn from the _buildingPrefabs list
+    private List<GameObject> _builtBuildings;
     #endregion
 
     #region Resources
+    public int constantIncome = 100;
+    public int bank = 1000;
+    public int totalUpkeep = 0;
     private Dictionary<ResourceTypes, float> _resourcesInWarehouse = new Dictionary<ResourceTypes, float>(); //Holds a number of stored resources for every ResourceType
 
     //A representation of _resourcesInWarehouse, broken into individual floats. Only for display in inspector, will be removed and replaced with UI later
@@ -40,7 +48,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private float _ResourcesInWarehouse_Schnapps;
     #endregion
-
+    
     #region Enumerations
     public enum ResourceTypes { None, Fish, Wood, Planks, Wool, Clothes, Potato, Schnapps }; //Enumeration of all available resource types. Can be addressed from other scripts by calling GameManager.ResourceTypes
     #endregion
@@ -51,6 +59,7 @@ public class GameManager : MonoBehaviour
     {
         GenerateMap();
         PopulateResourceDictionary();
+        InvokeRepeating(nameof(EconomyCycle), 60.0f, 60.0f);
     }
 
     // Update is called once per frame
@@ -118,6 +127,12 @@ public class GameManager : MonoBehaviour
         {
             _selectedBuildingPrefabIndex = 9;
         }
+        
+    }
+
+    void EconomyCycle()
+    {
+        bank += constantIncome - totalUpkeep;
     }
 
     //Updates the visual representation of the resource dictionary in the inspector. Only for debugging
@@ -140,10 +155,8 @@ public class GameManager : MonoBehaviour
 
     //Is called by MouseManager when a tile was clicked
     //Forwards the tile to the method for spawning buildings
-    public void TileClicked(int height, int width)
+    public void TileClicked(Tile t)
     {
-        Tile t = _tileMap[height, width];
-
         PlaceBuildingOnTile(t);
     }
 
@@ -151,13 +164,42 @@ public class GameManager : MonoBehaviour
     private void PlaceBuildingOnTile(Tile t)
     {
         //if there is building prefab for the number input
-        if (_selectedBuildingPrefabIndex < _buildingPrefabs.Length)
-        {
-            //TODO: check if building can be placed and then istantiate it
+        if (_selectedBuildingPrefabIndex >= _buildingPrefabs.Length) return;
 
+        GameObject prefab = _buildingPrefabs[_selectedBuildingPrefabIndex];
+        Building buildingPrefab = prefab.GetComponent<Building>();
+
+        if (t._building != null)
+        {
+            Debug.Log("Tile already occupied");
+            return;
         }
+
+        if (!buildingPrefab.canBeBuilt(t, bank, _resourcesInWarehouse)) return;
+
+        Building building = Instantiate(prefab, t.transform.position, Quaternion.identity).GetComponent<Building>();
+        building.Initialize(_resourcesInWarehouse, t, ref bank);
+        t._building = building;
+        totalUpkeep += building.upkeep;
     }
 
+    public void AddResourceToWarehouse(ResourceTypes type, float count)
+    {
+        _resourcesInWarehouse[type] += count;
+    }
+
+    public float TakeResourceFromWarehouse(ResourceTypes type, float count)
+    {
+        if (_resourcesInWarehouse[type] < count) return 0.0f;
+        _resourcesInWarehouse[type] -= count;
+        return count;
+    }
+    
+    public float CountResourceInWarehouse(ResourceTypes type)
+    {
+        return _resourcesInWarehouse[type];
+    }
+    
     private void GenerateMap()
     {
         tiles_parent = GameObject.Find("Tiles").transform;
@@ -237,7 +279,7 @@ public class GameManager : MonoBehaviour
     }
 
     //Returns a list of all neighbors of a given tile
-    private List<Tile> FindNeighborsOfTile(Tile tile)
+    public List<Tile> FindNeighborsOfTile(Tile tile)
     {
         List<Tile> result = new List<Tile>();
 
