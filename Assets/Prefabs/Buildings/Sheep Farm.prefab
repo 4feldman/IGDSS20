@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6254524841767572708}
+  - component: {fileID: 5067170262036346619}
   m_Layer: 0
   m_Name: Sheep Farm
   m_TagString: Untagged
@@ -42,6 +43,31 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5067170262036346619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2072286509746795289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fd24544da59c3549ba40ead03eab426, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 4
+  upkeep: 20
+  cost_money: 100
+  cost_planks: 2
+  tile: {fileID: 0}
+  resourceGenInterval: 30
+  resourceGenAmount: 1
+  possibleTileTypes: 03000000
+  scalesWithNeighboringTiles: 3
+  minNeighbors: 1
+  maxNeighbors: 4
+  inputResources: 
+  outputResource: 4
 --- !u!1001 &1171788621673703044
 PrefabInstance:
   m_ObjectHideFlags: 0

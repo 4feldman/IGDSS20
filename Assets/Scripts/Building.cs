@@ -8,7 +8,7 @@ public class Building : MonoBehaviour
     public int cost_money;
     public int cost_planks;
     public Tile tile;
-    public float efficiency;
+    private float efficiency;
     public int resourceGenInterval;
     public int resourceGenAmount;
     public List<Tile.TileTypes> possibleTileTypes;
