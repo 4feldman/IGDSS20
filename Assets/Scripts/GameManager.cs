@@ -182,23 +182,6 @@ public class GameManager : MonoBehaviour
         t._building = building;
         totalUpkeep += building.upkeep;
     }
-
-    public void AddResourceToWarehouse(ResourceTypes type, float count)
-    {
-        _resourcesInWarehouse[type] += count;
-    }
-
-    public float TakeResourceFromWarehouse(ResourceTypes type, float count)
-    {
-        if (_resourcesInWarehouse[type] < count) return 0.0f;
-        _resourcesInWarehouse[type] -= count;
-        return count;
-    }
-    
-    public float CountResourceInWarehouse(ResourceTypes type)
-    {
-        return _resourcesInWarehouse[type];
-    }
     
     private void GenerateMap()
     {
