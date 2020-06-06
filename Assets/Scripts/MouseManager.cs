@@ -29,10 +29,15 @@ public class MouseManager : MonoBehaviour
         if (Input.GetMouseButton(1))
         {
             Vector3 pos = Camera.main.ScreenToViewportPoint(Input.mousePosition - _mouseOrigin);
-            Vector3 panTarget = Camera.main.transform.position + new Vector3(-pos.y * panSpeed, 0, pos.x * panSpeed);
-            if (OverTerrain(panTarget))
+            Vector3 panTargetX = Camera.main.transform.position + new Vector3(0, 0, pos.x * panSpeed);
+            if (OverTerrain(panTargetX))
             {
-                Camera.main.transform.position = panTarget;
+                Camera.main.transform.position = panTargetX;
+            }
+            Vector3 panTargetY = Camera.main.transform.position + new Vector3(-pos.y * panSpeed, 0, 0);
+            if (OverTerrain(panTargetY))
+            {
+                Camera.main.transform.position = panTargetY;
             }
         }
 
