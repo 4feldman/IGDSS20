@@ -60,4 +60,24 @@ public class Building : MonoBehaviour
     {
         _workers.Remove(w);
     }
+
+    public bool canBeBuilt(Tile t, int bank, Dictionary<GameManager.ResourceTypes, float> warehouse)
+    {
+        if (!possibleTileTypes.Contains(t._type))
+        {
+            Debug.Log("Wrong tile type");
+            return false;
+        }
+        if (bank < cost_money)
+        {
+            Debug.Log("Not enough money");
+            return false;
+        }
+        if (warehouse[GameManager.ResourceTypes.Planks] < cost_planks)
+        {
+            Debug.Log("Not enough planks");
+            return false;
+        }
+        return true;
+    }
 }

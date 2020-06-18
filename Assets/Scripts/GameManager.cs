@@ -177,7 +177,7 @@ public class GameManager : MonoBehaviour
 
         if (!buildingPrefab.canBeBuilt(t, bank, _resourcesInWarehouse)) return;
 
-        Building building = Instantiate(prefab, t.transform.position, Quaternion.identity).GetComponent<Building>();
+        ProductionBuilding building = Instantiate(prefab, t.transform.position, Quaternion.identity).GetComponent<ProductionBuilding>();
         building.Initialize(_resourcesInWarehouse, t, ref bank);
         t._building = building;
         totalUpkeep += building.upkeep;
