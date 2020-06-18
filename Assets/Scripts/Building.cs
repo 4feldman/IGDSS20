@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class Building : MonoBehaviour
@@ -16,92 +14,50 @@ public class Building : MonoBehaviour
     public Tile.TileTypes scalesWithNeighboringTiles = Tile.TileTypes.Empty;
     public int minNeighbors;
     public int maxNeighbors;
-    public List<GameManager.ResourceTypes> inputResources = new List<GameManager.ResourceTypes>();
-    public GameManager.ResourceTypes outputResource;
     
     private Tile _tile;
-    private float _efficiency = 1.0f;
-    private Dictionary<GameManager.ResourceTypes, float> _warehouse;
-    private float _progress = 0;
-    private bool _production = false;
     #endregion
 
     #region Enumerations
     public enum BuildingType {Null, Fishery, Lumberjack, Sawmill, SheepFarm, FrameworkKnitters, PotatoFarm, SchnappsDistillery};
     #endregion
 
-    #region MonoBehavior
-    private void Start()
-    {
-    }
+    #region Manager References
+    JobManager _jobManager; //Reference to the JobManager
     #endregion
     
-    #region Methods
+    #region Workers
+    public List<Worker> _workers; //List of all workers associated with this building, either for work or living
+    #endregion
 
-    public bool canBeBuilt(Tile t, int bank, Dictionary<GameManager.ResourceTypes, float> warehouse)
+    #region Jobs
+    public List<Job> _jobs; // List of all available Jobs. Is populated in Start()
+    #endregion
+
+    // Start is called before the first frame update
+    protected virtual void Start()
     {
-        if (!possibleTileTypes.Contains(t._type))
-        {
-            Debug.Log("Wrong tile type");
-            return false;
-        }
-        if (bank < cost_money)
-        {
-            Debug.Log("Not enough money");
-            return false;
-        }
-        if (warehouse[GameManager.ResourceTypes.Planks] < cost_planks)
-        {
-            Debug.Log("Not enough planks");
-            return false;
-        }
-        return true;
+        
     }
-    
-    public void Initialize(Dictionary<GameManager.ResourceTypes, float> warehouse, Tile tile, ref int bank)
+
+    // Update is called once per frame
+    protected virtual void Update()
     {
-        _warehouse = warehouse;
+        
+    }
+
+    protected void Initialize(Tile tile)
+    {
         _tile = tile;
-        _warehouse[GameManager.ResourceTypes.Planks] -= cost_planks;
-        bank -= cost_money;
-        GenerateEfficiency(tile._neighborTiles);
-        InvokeRepeating(nameof(ProductionCycle), 0f, 1.0f);;
     }
 
-    public void ProductionCycle()
+    public void WorkerAssignedToBuilding(Worker w)
     {
-        if (!_production) StartProduction();
+        _workers.Add(w);
+    }
 
-        if (!_production) return;
-        _progress += _efficiency;
-        if (_progress < resourceGenInterval) return;
-        
-        _warehouse[outputResource] += resourceGenAmount;
-        StartProduction();
-    }
-    
-    private void StartProduction()
+    public void WorkerRemovedFromBuilding(Worker w)
     {
-        if (!inputResources.TrueForAll(inputResource => _warehouse[inputResource] >= 1)) return;
-        
-        _production = true;
-        inputResources.ForEach(inputResource => _warehouse[inputResource] -= 1);
-        _progress = 0.0f;
+        _workers.Remove(w);
     }
-    
-    private void GenerateEfficiency(IEnumerable<Tile> neighborTiles)
-    {
-        if (scalesWithNeighboringTiles == Tile.TileTypes.Empty) return;
-        
-        int fittingNeighbors = neighborTiles.Count(neighbor => neighbor._type == scalesWithNeighboringTiles);
-        if (fittingNeighbors < minNeighbors)
-        {
-            _efficiency = 0.0f;
-            return;
-        }
-        if (fittingNeighbors < maxNeighbors) {
-            _efficiency = (float)fittingNeighbors / (float)maxNeighbors;
-        }
-    }
-    #endregion
 }
