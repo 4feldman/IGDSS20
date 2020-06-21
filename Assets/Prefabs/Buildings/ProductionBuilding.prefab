@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7797752405107722884}
   - component: {fileID: 680057765883031894}
   m_Layer: 0
-  m_Name: Building
+  m_Name: ProductionBuilding
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -53,5 +53,6 @@ MonoBehaviour:
   scalesWithNeighboringTiles: 0
   minNeighbors: 0
   maxNeighbors: 0
+  _workers: []
   inputResources: 
   outputResource: 0

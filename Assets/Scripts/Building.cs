@@ -4,34 +4,17 @@ using UnityEngine;
 public class Building : MonoBehaviour
 {
     #region Attributes
-    public BuildingType type;
     public int upkeep;
-    public int cost_money;
+    public float cost_money;
     public int cost_planks;
-    public int resourceGenInterval;
-    public int resourceGenAmount;
     public List<Tile.TileTypes> possibleTileTypes;
-    public Tile.TileTypes scalesWithNeighboringTiles = Tile.TileTypes.Empty;
-    public int minNeighbors;
-    public int maxNeighbors;
     
     private Tile _tile;
     #endregion
 
-    #region Enumerations
-    public enum BuildingType {Null, Fishery, Lumberjack, Sawmill, SheepFarm, FrameworkKnitters, PotatoFarm, SchnappsDistillery};
-    #endregion
-
     #region Manager References
-    JobManager _jobManager; //Reference to the JobManager
-    #endregion
-    
-    #region Workers
-    public List<Worker> _workers; //List of all workers associated with this building, either for work or living
-    #endregion
-
-    #region Jobs
-    public List<Job> _jobs; // List of all available Jobs. Is populated in Start()
+    internal ResourceManager _resourceManager;
+    internal JobManager _jobManager;
     #endregion
 
     // Start is called before the first frame update
@@ -46,34 +29,30 @@ public class Building : MonoBehaviour
         
     }
 
-    protected void Initialize(Tile tile)
+    public virtual void Initialize(Tile tile, ResourceManager resourceManager, JobManager jobManager)
     {
+        Debug.Log("Building");
         _tile = tile;
+        _resourceManager = resourceManager;
+        _jobManager = jobManager;
+        
+        _resourceManager.removeResource(ResourceManager.ResourceTypes.Planks, cost_planks);
+        _resourceManager.removeMoney(cost_money);
     }
 
-    public void WorkerAssignedToBuilding(Worker w)
-    {
-        _workers.Add(w);
-    }
-
-    public void WorkerRemovedFromBuilding(Worker w)
-    {
-        _workers.Remove(w);
-    }
-
-    public bool canBeBuilt(Tile t, int bank, Dictionary<GameManager.ResourceTypes, float> warehouse)
+    public bool canBeBuilt(Tile t, ResourceManager resourceManager)
     {
         if (!possibleTileTypes.Contains(t._type))
         {
             Debug.Log("Wrong tile type");
             return false;
         }
-        if (bank < cost_money)
+        if (resourceManager.moneyCount() < cost_money)
         {
             Debug.Log("Not enough money");
             return false;
         }
-        if (warehouse[GameManager.ResourceTypes.Planks] < cost_planks)
+        if (resourceManager.resourceCount(ResourceManager.ResourceTypes.Planks) < cost_planks)
         {
             Debug.Log("Not enough planks");
             return false;
