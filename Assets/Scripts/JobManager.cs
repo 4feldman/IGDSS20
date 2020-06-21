@@ -64,5 +64,22 @@ public class JobManager : MonoBehaviour
         }
     }
 
+    public void RegisterJob(Job j)
+    {
+        _availableJobs.Add(j);
+        HandleUnoccupiedWorkers();
+    }
+
+    public void RemoveJob(Job j)
+    {
+        _availableJobs.Remove(j);
+        if (j._worker != null)
+        {
+            _unoccupiedWorkers.Add(j._worker);
+            j.RemoveWorker(j._worker);
+            HandleUnoccupiedWorkers();
+        }
+    }
+
     #endregion
 }

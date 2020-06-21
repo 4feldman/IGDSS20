@@ -159,6 +159,13 @@ public class Worker : MonoBehaviour
 
     private void Tax()
     {
-        _resourceManager.addMoney(_tax);
+        if (_job == null)
+        {
+            _resourceManager.removeMoney(_tax);
+        }
+        else
+        {
+            _resourceManager.addMoney(_tax);
+        }
     }
 }

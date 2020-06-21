@@ -20,10 +20,12 @@ public class ProductionBuilding : Building
 
     #region Jobs
     public List<Job> _jobs; // List of all available Jobs. Is populated in Start()
+    public int _numJobs = 1;
     #endregion
     
     #region Production
     private float _efficiency = 1.0f;
+    private float _neighborEfficiency = 1.0f;
     private float _progress = 0;
     private bool _production = false;
     private Dictionary<ResourceManager.ResourceTypes, float> inputResourceDict = new Dictionary<ResourceManager.ResourceTypes, float>();
@@ -53,7 +55,8 @@ public class ProductionBuilding : Building
         base.Initialize(tile, resourceManager, jobManager);
         Debug.Log("Production");
         GenerateInputResources();
-        GenerateEfficiency(tile._neighborTiles);
+        GenerateNeighborEfficiency(tile._neighborTiles);
+        GenerateJobs();
         InvokeRepeating(nameof(ProductionCycle), 0f, 1.0f);
     }
 
@@ -72,18 +75,29 @@ public class ProductionBuilding : Building
         }
     }
     
-    private void GenerateEfficiency(IEnumerable<Tile> neighborTiles)
+    private void GenerateNeighborEfficiency(IEnumerable<Tile> neighborTiles)
     {
         if (scalesWithNeighboringTiles == Tile.TileTypes.Empty) return;
         
         int fittingNeighbors = neighborTiles.Count(neighbor => neighbor._type == scalesWithNeighboringTiles);
         if (fittingNeighbors < minNeighbors)
         {
-            _efficiency = 0.0f;
+            _neighborEfficiency = 0.0f;
             return;
         }
         if (fittingNeighbors < maxNeighbors) {
-            _efficiency = (float)fittingNeighbors / (float)maxNeighbors;
+            _neighborEfficiency = (float)fittingNeighbors / (float)maxNeighbors;
+        }
+        GenerateEfficiency();
+    }
+
+    private void GenerateJobs()
+    {
+        for(int i = 0; i < _numJobs; i++)
+        {
+            Job j = new Job(this);
+            _jobs.Add(j);
+            _jobManager.RegisterJob(j);
         }
     }
     #endregion
@@ -106,6 +120,7 @@ public class ProductionBuilding : Building
         if (!_production) StartProduction();
 
         if (!_production) return;
+        GenerateEfficiency();
         _progress += _efficiency;
         if (_progress < resourceGenInterval) return;
         
@@ -120,6 +135,11 @@ public class ProductionBuilding : Building
         {
             _progress = 0.0f;
         }
+    }
+
+    private void GenerateEfficiency()
+    {
+        _efficiency = _neighborEfficiency * (_workers.Sum(x => x._happiness) / _numJobs);
     }
     #endregion
 
