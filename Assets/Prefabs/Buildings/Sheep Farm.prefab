@@ -274,6 +274,11 @@ PrefabInstance:
       propertyPath: possibleTileTypes.Array.data[0]
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 680057765883031894, guid: 758bd554044aa134abe63539046fcea8,
+        type: 3}
+      propertyPath: _numJobs
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7610089905095315320, guid: 758bd554044aa134abe63539046fcea8,
         type: 3}
       propertyPath: m_Name
