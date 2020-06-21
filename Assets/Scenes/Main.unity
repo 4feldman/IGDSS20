@@ -620,6 +620,102 @@ Transform:
   m_Father: {fileID: 1457566343}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50.000004, y: -115.880005, z: 0}
+--- !u!1 &887517814
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 887517815}
+  - component: {fileID: 887517816}
+  m_Layer: 0
+  m_Name: ResourceManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &887517815
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 887517814}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1589499994}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &887517816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 887517814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba2a5272e466e444eb1c9dbba63d14c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bank: 1000
+  _constantIncome: 100
+  _ResourcesInWarehouse_Fish: 0
+  _ResourcesInWarehouse_Wood: 0
+  _ResourcesInWarehouse_Planks: 0
+  _ResourcesInWarehouse_Wool: 0
+  _ResourcesInWarehouse_Clothes: 0
+  _ResourcesInWarehouse_Potato: 0
+  _ResourcesInWarehouse_Schnapps: 0
+--- !u!1 &993311244
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 993311245}
+  - component: {fileID: 993311246}
+  m_Layer: 0
+  m_Name: JobManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &993311245
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 993311244}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1589499994}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &993311246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 993311244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1535e962770ca142aefe16fa4d5d707, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _unoccupiedWorkers: []
 --- !u!1001 &1159358734
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -761,6 +857,8 @@ Transform:
   m_Children:
   - {fileID: 1768092942}
   - {fileID: 834136087}
+  - {fileID: 887517815}
+  - {fileID: 993311245}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -974,17 +1072,10 @@ MonoBehaviour:
   - {fileID: 1999344522339519215, guid: b57fdb2036e60cf498c0098021c71225, type: 3}
   - {fileID: 6406015772669028592, guid: d12c51d0c475b9e42b921e6a5304236d, type: 3}
   - {fileID: 4659377469643538219, guid: 1b3fc4fd8a536894eb902f0be1875b6e, type: 3}
+  - {fileID: 3036922103266000082, guid: af022c5d797fa8c4fa0aefc76d48ae8f, type: 3}
   _selectedBuildingPrefabIndex: 0
-  constantIncome: 100
-  bank: 1000
-  totalUpkeep: 0
-  _ResourcesInWarehouse_Fish: 0
-  _ResourcesInWarehouse_Wood: 0
-  _ResourcesInWarehouse_Planks: 0
-  _ResourcesInWarehouse_Wool: 0
-  _ResourcesInWarehouse_Clothes: 0
-  _ResourcesInWarehouse_Potato: 0
-  _ResourcesInWarehouse_Schnapps: 0
+  resourceManager: {fileID: 887517816}
+  jobManager: {fileID: 993311246}
 --- !u!4 &1768092942
 Transform:
   m_ObjectHideFlags: 0
