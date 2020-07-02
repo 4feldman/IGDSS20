@@ -21,9 +21,40 @@ public class NavigationManager
         generateMapForNeighbors(building._tile, 0);
     }
 
-    public int getTileWeight(Tile t)
+    public List<Tile> generatePath(Tile origin)
     {
-        if (!_potentialMap.ContainsKey(t))
+        List<Tile> path = new List<Tile>();
+        path.Add(origin);
+        int remainingWeight = getTileWeight(origin);
+
+        Tile currentTile = origin;
+        while (remainingWeight > 0)
+        {
+            Tile newTile = null;
+            int newWeight = 0;
+            foreach (Tile t in currentTile._neighborTiles)
+            {
+                if (newTile == null)
+                {
+                    newTile = t;
+                    newWeight = getTileWeight(t);
+                }
+                else if (getTileWeight(t) < newWeight)
+                {
+                    newTile = t;
+                    newWeight = getTileWeight(t);
+                }
+            }
+            path.Add(newTile);
+            currentTile = newTile;
+            remainingWeight = newWeight;
+        }
+        return path;
+    }
+
+    private int getTileWeight(Tile t)
+    {
+        if (_potentialMap.ContainsKey(t))
         {
             return _potentialMap[t];
         }
