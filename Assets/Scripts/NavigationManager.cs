@@ -21,6 +21,15 @@ public class NavigationManager
         generateMapForNeighbors(building._tile, 0);
     }
 
+    public int getTileWeight(Tile t)
+    {
+        if (!_potentialMap.ContainsKey(t))
+        {
+            return _potentialMap[t];
+        }
+        return 0;
+    }
+
     private void generateMapForNeighbors(Tile tile, int tileWeight)
     {
         foreach (Tile t in tile._neighborTiles)
