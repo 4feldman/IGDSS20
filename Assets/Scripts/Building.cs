@@ -9,12 +9,13 @@ public class Building : MonoBehaviour
     public int cost_planks;
     public List<Tile.TileTypes> possibleTileTypes;
     
-    private Tile _tile;
+    public Tile _tile;
     #endregion
 
     #region Manager References
     internal ResourceManager _resourceManager;
     internal JobManager _jobManager;
+    internal NavigationManager _navManager;
     #endregion
 
     // Start is called before the first frame update
@@ -38,6 +39,8 @@ public class Building : MonoBehaviour
         
         _resourceManager.removeResource(ResourceManager.ResourceTypes.Planks, cost_planks);
         _resourceManager.removeMoney(cost_money);
+
+        _navManager = new NavigationManager(this);
     }
 
     public bool canBeBuilt(Tile t, ResourceManager resourceManager)

@@ -93,6 +93,7 @@ public class ProductionBuilding : Building
 
     private void GenerateJobs()
     {
+        _jobs = new List<Job>();
         for(int i = 0; i < _numJobs; i++)
         {
             Job j = new Job(this);
