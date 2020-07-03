@@ -75,6 +75,7 @@ public class NavigationManager
             else if (_potentialMap[t] > newWeight)
             {
                 _potentialMap[t] = newWeight;
+                generateMapForNeighbors(t, newWeight);
             }
         }
     }
