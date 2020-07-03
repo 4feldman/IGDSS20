@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 7996929617370195497}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.9371056, y: -24.585814, z: 11.536341}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 7024917347845857278}
   m_Father: {fileID: 0}
@@ -46,6 +46,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _age: 0
   _happiness: 0
+  _tax: 0
+  _speed: 10
+  _group: 0
+  _currentPosition: {x: 0, y: 0, z: 0}
+  _home: {fileID: 0}
+  _targetField: {fileID: 0}
+  _targetTile: 0
 --- !u!1001 &7021750065153253990
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -51,7 +51,7 @@ public class HousingBuilding : Building
     public void AddWorker(float age)
     {
         Worker worker = Instantiate(_workerPrefab, transform.position, Quaternion.identity).GetComponent<Worker>();
-        worker.Initialize(_resourceManager, _jobManager, age);
+        worker.Initialize(_resourceManager, _jobManager, age, this);
         _residents.Add(worker);
     }
     

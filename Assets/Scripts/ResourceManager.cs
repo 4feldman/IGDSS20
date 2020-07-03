@@ -26,7 +26,7 @@ public class ResourceManager : MonoBehaviour
         _resourcesInWarehouse.Add(ResourceTypes.None, 0);
         _resourcesInWarehouse.Add(ResourceTypes.Fish, 100);
         _resourcesInWarehouse.Add(ResourceTypes.Wood, 0);
-        _resourcesInWarehouse.Add(ResourceTypes.Planks, 0);
+        _resourcesInWarehouse.Add(ResourceTypes.Planks, 100);
         _resourcesInWarehouse.Add(ResourceTypes.Wool, 0);
         _resourcesInWarehouse.Add(ResourceTypes.Clothes, 100);
         _resourcesInWarehouse.Add(ResourceTypes.Potato, 0);

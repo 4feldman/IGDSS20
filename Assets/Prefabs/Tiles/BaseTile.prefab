@@ -18,7 +18,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &5035642893912111872
 Transform:
@@ -108,7 +108,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 583f2ed6078c691478c8bb0995d72fa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 0
-  building: {fileID: 0}
-  neighbourTiles: []
-  tileObject: {fileID: 0}
+  _type: 0
+  _building: {fileID: 0}
+  _neighborTiles: []
+  _coordinateHeight: 0
+  _coordinateWidth: 0

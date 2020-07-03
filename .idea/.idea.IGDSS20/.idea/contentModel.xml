@@ -20,6 +20,7 @@
           <e p="Job.cs" t="Include" />
           <e p="JobManager.cs" t="Include" />
           <e p="MouseManager.cs" t="Include" />
+          <e p="NavigationManager.cs" t="Include" />
           <e p="ProductionBuilding.cs" t="Include" />
           <e p="ResourceManager.cs" t="Include" />
           <e p="Tile.cs" t="Include" />

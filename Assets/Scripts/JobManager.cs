@@ -37,8 +37,7 @@ public class JobManager : MonoBehaviour
                 j.AssignWorker(w);
                 _availableJobs.Remove(j);
                 _unoccupiedWorkers.Remove(w);
-                w._happiness = 1f;
-                w._job = j;
+                w.AssignJob(j);
             }
         }
     }

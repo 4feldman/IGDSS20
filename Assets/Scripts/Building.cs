@@ -42,6 +42,11 @@ public class Building : MonoBehaviour
 
         _navManager = new NavigationManager(this);
     }
+    
+    public List<Tile> generatePath(Tile origin)
+    {
+        return _navManager.generatePath(origin);
+    }
 
     public bool canBeBuilt(Tile t, ResourceManager resourceManager)
     {
