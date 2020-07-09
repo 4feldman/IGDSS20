@@ -178,6 +178,7 @@ public partial class GameManager : MonoBehaviour
         foreach (Tile tile in _tileMap)
         {
             tile._neighborTiles = FindNeighborsOfTile(tile);
+            DisableTileEdges(tile, tile._neighborTiles);
         }
     }
 
@@ -202,7 +203,11 @@ public partial class GameManager : MonoBehaviour
         GameObject tile = Instantiate(prefab, pos, Quaternion.identity);
         tile.layer = 8;
         tile.transform.parent = tiles_parent;
-        _tileMap[i, j] = tile.GetComponent<Tile>();
+
+        Tile t = tile.GetComponent<Tile>();
+        t._coordinateHeight = i;
+        t._coordinateWidth = j;
+        _tileMap[i, j] = t;
         return tile;
     }
 
@@ -225,6 +230,80 @@ public partial class GameManager : MonoBehaviour
             }
         }
         return result;
+    }
+
+    public void DisableTileEdges(Tile tile, List<Tile> neighbors)
+    {
+        foreach (Tile n in neighbors)
+        {
+            if (tile._type == n._type)
+            {
+                GameObject tileEdge;
+                //Neighbor above tile
+                if (n._coordinateHeight - tile._coordinateHeight < 0)
+                {
+                    //Neighbor definitely at top left
+                    if (n._coordinateWidth < tile._coordinateWidth)
+                    {
+                        tileEdge = tile._tileEdges[3];
+                    }
+                    //Neighbor definitely at top right
+                    else if (n._coordinateWidth > tile._coordinateWidth)
+                    {
+                        tileEdge = tile._tileEdges[4];
+                    }
+                    //Neighbor definitely at top left
+                    else if (tile._coordinateHeight % 2 == 1)
+                    {
+                        tileEdge = tile._tileEdges[3];
+                    }
+                    //Neighbor definitely at top right
+                    else
+                    {
+                        tileEdge = tile._tileEdges[4];
+                    }
+                }
+                //Neighbor next to tile
+                else if (n._coordinateHeight - tile._coordinateHeight == 0)
+                {
+                    //Neighbor left of tile
+                    if (n._coordinateWidth < tile._coordinateWidth)
+                    {
+                        tileEdge = tile._tileEdges[2];
+                    }
+                    //Neighbor right of tile
+                    else
+                    {
+                        tileEdge = tile._tileEdges[5];
+                    }
+                }
+                //Neighbor below tile
+                else
+                {
+                    //Neighbor definitely at bottom left
+                    if (n._coordinateWidth < tile._coordinateWidth)
+                    {
+                        tileEdge = tile._tileEdges[1];
+                    }
+                    //Neighbor definitely at bottom right
+                    else if (n._coordinateWidth > tile._coordinateWidth)
+                    {
+                        tileEdge = tile._tileEdges[0];
+                    }
+                    //Neighbor definitely at bottom left
+                    else if (tile._coordinateHeight % 2 == 1)
+                    {
+                        tileEdge = tile._tileEdges[1];
+                    }
+                    //Neighbor definitely at bottom right
+                    else
+                    {
+                        tileEdge = tile._tileEdges[0];
+                    }
+                }
+                tileEdge.SetActive(false);
+            }
+        }
     }
     #endregion
 }
