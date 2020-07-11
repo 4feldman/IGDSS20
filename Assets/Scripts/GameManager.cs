@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using Debug = UnityEngine.Debug;
 
 public partial class GameManager : MonoBehaviour
@@ -108,7 +109,11 @@ public partial class GameManager : MonoBehaviour
     //Forwards the tile to the method for spawning buildings
     public void TileClicked(Tile t)
     {
-        PlaceBuildingOnTile(t);
+        // Check if the mouse was clicked over a UI element
+        if (!EventSystem.current.IsPointerOverGameObject())
+        {
+            PlaceBuildingOnTile(t);
+        }
     }
 
     //Checks if the currently selected building type can be placed on the given tile and then instantiates an instance of the prefab
