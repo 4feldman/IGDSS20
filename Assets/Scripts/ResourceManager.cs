@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ResourceManager : MonoBehaviour
 {    
@@ -11,6 +12,8 @@ public class ResourceManager : MonoBehaviour
 
     public float _bank = 1000f;
     public int _constantIncome = 100;
+
+    private Text _moneyText;
 
     //A representation of _resourcesInWarehouse, broken into individual floats. Only for display in inspector, will be removed and replaced with UI later
     [SerializeField] private float _ResourcesInWarehouse_Fish;
@@ -23,6 +26,7 @@ public class ResourceManager : MonoBehaviour
 
     void Start()
     {
+        _moneyText = GameObject.Find("MoneyText").GetComponent<Text>();
         _resourcesInWarehouse.Add(ResourceTypes.None, 0);
         _resourcesInWarehouse.Add(ResourceTypes.Fish, 100);
         _resourcesInWarehouse.Add(ResourceTypes.Wood, 0);
@@ -44,6 +48,7 @@ public class ResourceManager : MonoBehaviour
     private void Income()
     {
         _bank += _constantIncome;
+        UpdateMoneyUI();
     }
 
     public float moneyCount()
@@ -54,11 +59,18 @@ public class ResourceManager : MonoBehaviour
     public void addMoney(float amount)
     {
         _bank += amount;
+        UpdateMoneyUI();
     }
 
     public void removeMoney(float amount)
     {
         _bank -= amount;
+        UpdateMoneyUI();
+    }
+
+    private void UpdateMoneyUI()
+    {
+        _moneyText.text = ((int)_bank).ToString();
     }
 
     #endregion

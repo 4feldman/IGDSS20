@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class JobManager : MonoBehaviour
 {
@@ -8,12 +9,14 @@ public class JobManager : MonoBehaviour
     private List<Job> _availableJobs = new List<Job>();
     public List<Worker> _unoccupiedWorkers = new List<Worker>();
     private System.Random _rand = new System.Random();
+    private List<Worker> _allWorkers = new List<Worker>();
+    private Text _workerText;
 
     #region MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        _workerText = GameObject.Find("WorkerText").GetComponent<Text>();
     }
 
     // Update is called once per frame
@@ -45,6 +48,8 @@ public class JobManager : MonoBehaviour
     public void RegisterWorker(Worker w)
     {
         _unoccupiedWorkers.Add(w);
+        _allWorkers.Add(w);
+        UpdateWorkerUI();
     }
 
 
@@ -54,11 +59,15 @@ public class JobManager : MonoBehaviour
         if(_unoccupiedWorkers.Contains(w))
         {
             _unoccupiedWorkers.Remove(w);
+            _allWorkers.Remove(w);
+            UpdateWorkerUI();
         }
         if (w._job != null)
         {
             _availableJobs.Add(w._job);
             w._job.RemoveWorker(w);
+            _allWorkers.Remove(w);
+            UpdateWorkerUI();
             HandleUnoccupiedWorkers();
         }
     }
@@ -78,6 +87,11 @@ public class JobManager : MonoBehaviour
             j.RemoveWorker(j._worker);
             HandleUnoccupiedWorkers();
         }
+    }
+
+    private void UpdateWorkerUI()
+    {
+        _workerText.text = _allWorkers.Count.ToString();
     }
 
     #endregion
