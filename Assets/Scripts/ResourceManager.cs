@@ -24,9 +24,25 @@ public class ResourceManager : MonoBehaviour
     [SerializeField] private float _ResourcesInWarehouse_Potato;
     [SerializeField] private float _ResourcesInWarehouse_Schnapps;
 
+    private Text _woodText;
+    private Text _planksText;
+    private Text _woolText;
+    private Text _clothesText;
+    private Text _potatoText;
+    private Text _schnappsText;
+    private Text _fishText;
+
     void Start()
     {
         _moneyText = GameObject.Find("MoneyText").GetComponent<Text>();
+        _woodText = GameObject.Find("WoodText").GetComponent<Text>();
+        _planksText = GameObject.Find("PlanksText").GetComponent<Text>();
+        _woolText = GameObject.Find("WoolText").GetComponent<Text>();
+        _clothesText = GameObject.Find("ClothesText").GetComponent<Text>();
+        _potatoText = GameObject.Find("PotatoText").GetComponent<Text>();
+        _schnappsText = GameObject.Find("SchnappsText").GetComponent<Text>();
+        _fishText = GameObject.Find("FishText").GetComponent<Text>();
+
         _resourcesInWarehouse.Add(ResourceTypes.None, 0);
         _resourcesInWarehouse.Add(ResourceTypes.Fish, 100);
         _resourcesInWarehouse.Add(ResourceTypes.Wood, 0);
@@ -35,6 +51,8 @@ public class ResourceManager : MonoBehaviour
         _resourcesInWarehouse.Add(ResourceTypes.Clothes, 100);
         _resourcesInWarehouse.Add(ResourceTypes.Potato, 0);
         _resourcesInWarehouse.Add(ResourceTypes.Schnapps, 100);
+        UpdateResourceUI();
+        UpdateMoneyUI();
         InvokeRepeating(nameof(Income), 60.0f, 60.0f);
     }
 
@@ -97,6 +115,7 @@ public class ResourceManager : MonoBehaviour
     public void addResource(ResourceTypes resource, float amount)
     {
         _resourcesInWarehouse[resource] += amount;
+        UpdateResourceUI();
     }
 
     public bool removeResource(ResourceTypes resource, float amount)
@@ -118,7 +137,7 @@ public class ResourceManager : MonoBehaviour
         {
             _resourcesInWarehouse[resource.Key] -= resource.Value;
         }
-
+        UpdateResourceUI();
         return true;
     }
 
@@ -137,7 +156,19 @@ public class ResourceManager : MonoBehaviour
         }
 
         _resourcesInWarehouse[resource] -= amount;
+        UpdateResourceUI();
         return amount;
+    }
+
+    private void UpdateResourceUI()
+    {
+        _woodText.text = ((int)_resourcesInWarehouse[ResourceTypes.Wood]).ToString();
+        _planksText.text = ((int)_resourcesInWarehouse[ResourceTypes.Planks]).ToString();
+        _woolText.text = ((int)_resourcesInWarehouse[ResourceTypes.Wool]).ToString();
+        _clothesText.text = ((int)_resourcesInWarehouse[ResourceTypes.Clothes]).ToString();
+        _potatoText.text = ((int)_resourcesInWarehouse[ResourceTypes.Potato]).ToString();
+        _schnappsText.text = ((int)_resourcesInWarehouse[ResourceTypes.Schnapps]).ToString();
+        _fishText.text = ((int)_resourcesInWarehouse[ResourceTypes.Fish]).ToString();
     }
 
     #endregion
