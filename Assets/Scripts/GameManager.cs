@@ -53,6 +53,11 @@ public partial class GameManager : MonoBehaviour
     #region Methods
     //Makes the resourceManager dictionary usable by populating the values and keys
 
+    public void UI_Button_Clicked(int number)
+    {
+        _selectedBuildingPrefabIndex = number;
+    }
+
     //Sets the index for the currently selected building prefab by checking key presses on the numbers 1 to 0
     void HandleKeyboardInput()
     {
