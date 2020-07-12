@@ -132,12 +132,15 @@ public class Worker : MonoBehaviour
 
     private void updateAge()
     {
-        _age += Time.deltaTime / 15;
-        //A life cycle, where a Worker ages by 1 year every 15 real seconds.
-        //When becoming of age, the worker enters the job market, and leaves it when retiring.
-        //Eventually, the worker dies and leaves an empty space in his home. His Job occupation is also freed up.
+        if (!_jobManager._gameManager.GameEnded)
+        {
+            _age += Time.deltaTime / 15;
+            //A life cycle, where a Worker ages by 1 year every 15 real seconds.
+            //When becoming of age, the worker enters the job market, and leaves it when retiring.
+            //Eventually, the worker dies and leaves an empty space in his home. His Job occupation is also freed up.
 
-        Age();
+            Age();
+        }
     }
     
     private void Age()
