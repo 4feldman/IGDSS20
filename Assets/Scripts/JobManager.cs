@@ -11,6 +11,7 @@ public class JobManager : MonoBehaviour
     private System.Random _rand = new System.Random();
     private List<Worker> _allWorkers = new List<Worker>();
     private Text _workerText;
+    public GameManager _gameManager;
 
     #region MonoBehaviour
     // Start is called before the first frame update
@@ -91,7 +92,14 @@ public class JobManager : MonoBehaviour
 
     private void UpdateWorkerUI()
     {
-        _workerText.text = _allWorkers.Count.ToString();
+        if (!_gameManager.GameEnded)
+        {
+            _workerText.text = _allWorkers.Count.ToString();
+            if (_allWorkers.Count >= 1000)
+            {
+                _gameManager.GameEnd(true);
+            }
+        }
     }
 
     #endregion

@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using Debug = UnityEngine.Debug;
 
 public partial class GameManager : MonoBehaviour
@@ -32,9 +33,10 @@ public partial class GameManager : MonoBehaviour
     public JobManager jobManager;
     #endregion
     
-    #region Enumerations
-
-    //Enumeration of all available resourceManager types. Can be addressed from other scripts by calling GameManager.ResourceTypes
+    #region Gameplay
+    public GameObject endGamePanel;
+    public GameObject endGameTextPanel;
+    public bool GameEnded = false;
     #endregion
 
     #region MonoBehaviour
@@ -57,6 +59,21 @@ public partial class GameManager : MonoBehaviour
     public void UI_Button_Clicked(int number)
     {
         _selectedBuildingPrefabIndex = number;
+    }
+
+    public void GameEnd(bool win)
+    {
+        Text endGameText = endGameTextPanel.GetComponent<Text>();
+        if (win)
+        {
+            endGameText.text = "Du hast gewonnen";
+        }
+        else
+        {
+            endGameText.text = "Du hast verloren";
+        }
+        endGamePanel.SetActive(true);
+        GameEnded = true;
     }
 
     //Sets the index for the currently selected building prefab by checking key presses on the numbers 1 to 0
